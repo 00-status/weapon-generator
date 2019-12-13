@@ -1,6 +1,6 @@
 
 const weaponBox = `
-<div>
+<div id="weaponBox">
     <h1>{{ title }}</h1>
     <h3><slot name="sub-title"></slot></h3>
     <div><slot name="content"></slot></div>
