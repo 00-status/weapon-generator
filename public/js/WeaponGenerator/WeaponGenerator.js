@@ -12,8 +12,9 @@ let weapon = {
 };
 
 const generateWeapon = () => {
-    fetchWeapon((name) => {
-        weapon.name = name;
+    fetchWeapon((response) => {
+        weapon.name = response.name;
+        weapon.rarity = response.rarity;
     });
 };
 

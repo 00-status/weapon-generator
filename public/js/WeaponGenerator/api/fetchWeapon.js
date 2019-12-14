@@ -5,7 +5,7 @@ const fetchWeapon = (callback) => {
     // Callback for when the request completes.
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == XMLHttpRequest.DONE && xhttp.status == 200) {
-            return callback(xhttp.responseText);
+            return callback(JSON.parse(xhttp.responseText));
         }
     };
     // Create the request
