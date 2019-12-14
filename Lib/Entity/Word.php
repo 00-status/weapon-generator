@@ -12,32 +12,8 @@ class Word
     private $name;
     /** @var string */
     private $type;
-    /** @var int */
-    private $bludgeoning;
-    /** @var int */
-    private $slashing;
-    /** @var int */
-    private $piercing;
-    /** @var int */
-    private $fire;
-    /** @var int */
-    private $cold;
-    /** @var int */
-    private $poison;
-    /** @var int */
-    private $acid;
-    /** @var int */
-    private $psychic;
-    /** @var int */
-    private $necrotic;
-    /** @var int */
-    private $radiant;
-    /** @var int */
-    private $lightning;
-    /** @var int */
-    private $thunder;
-    /** @var int */
-    private $force;
+    /** @var array */
+    private $stats;
 
     /**
      * @param string $name
@@ -75,24 +51,24 @@ class Word
         ) {
         $this->name = $name;
         $this->type = $type;
-        $this->bludgeoning = $bludgeoning;
-        $this->slashing = $slashing;
-        $this->piercing = $piercing;
-        $this->fire = $fire;
-        $this->cold = $cold;
-        $this->poison = $poison;
-        $this->acid = $acid;
-        $this->psychic = $psychic;
-        $this->necrotic = $necrotic;
-        $this->radiant = $radiant;
-        $this->lightning = $lightning;
-        $this->thunder = $thunder;
-        $this->force = $force;
+
+        $this->stats['bludgeoning'] = $bludgeoning;
+        $this->stats['slashing'] = $slashing;
+        $this->stats['piercing'] = $piercing;
+        $this->stats['fire'] = $fire;
+        $this->stats['cold'] = $cold;
+        $this->stats['poison'] = $poison;
+        $this->stats['acid'] = $acid;
+        $this->stats['psyhic'] = $psychic;
+        $this->stats['necrotic'] = $necrotic;
+        $this->stats['radiant'] = $radiant;
+        $this->stats['lightning'] = $lightning;
+        $this->stats['thunder'] = $thunder;
+        $this->stats['force'] = $force;
     }
 
     public static function fromArray(array $word_array): self
     {
-        $stats = [];
         return new self(
             $word_array['word'],
             $word_array['type'],
@@ -128,69 +104,75 @@ class Word
         return $this->type;
     }
 
+    public function calculateTotalPoints()
+    {
+        return array_reduce($this->stats, function ($sum, $stat) {
+            return $sum += isset($stat) ? $stat : 0;
+        }, 0);
+    }
+
     public function getBludgeoning()
     {
-        return $this->bludgeoning;
+        return $this->stats['bludgeoning'] ?? null;
     }
 
     public function getSlashing()
     {
-        return $this->slashing;
+        return $this->stats['slashing'] ?? null;
     }
 
     public function getPiercing()
     {
-        return $this->piercing;
+        return $this->stats['piercing'] ?? null;
     }
 
     public function getFire()
     {
-        return $this->fire;
+        return $this->stats['fire'] ?? null;
     }
 
     public function getCold()
     {
-        return $this->cold;
+        return $this->stats['cold'] ?? null;
     }
 
     public function getPoison()
     {
-        $this->poison;
+        $this->stats['poison'] ?? null;
     }
 
     public function getAcid()
     {
-        $this->acid;
+        $this->stats['acid'] ?? null;
     }
 
     public function getPsychic()
     {
-        $this->psychic;
+        $this->stats['psychic'] ?? null;
     }
 
     public function getNecrotic()
     {
-        $this->necrotic;
+        $this->stats['necrotic'] ?? null;
     }
 
     public function getRadiant()
     {
-        $this->radiant;
+        $this->stats['radiant'] ?? null;
     }
 
     public function getLightning()
     {
-        $this->lightning;
+        $this->stats['lightning'] ?? null;
     }
 
     public function getThunder()
     {
-        return $this->thunder;
+        return $this->stats['thunder'] ?? null;
     }
 
     public function getForce()
     {
-        return $this->force;
+        return $this->stats['force'] ?? null;
     }
-
 }

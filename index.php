@@ -20,7 +20,7 @@ $app->get('/api/generate_weapon', function (Request $request, Response $response
 {
     $service = new WeaponGeneratorService();
     $result = $service->generateWeapon();
-    $response->getBody()->write($result);
+    $response->getBody()->write(json_encode($result));
     return $response;
 });
 
