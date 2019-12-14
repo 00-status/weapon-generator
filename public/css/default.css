@@ -1,0 +1,20 @@
+
+body {
+    font-family: 'Solway', serif;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Sahitya', serif;
+    font-weight: 700;
+    margin: 6px 9px 6px 9px;
+}
+
+#app {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+
+#weaponBox {
+    border: 3px solid black;
+}

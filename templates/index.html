@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="https://fonts.googleapis.com/css?family=Sahitya:700|Solway&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../public/css/default.css" />
         <script src='../node_modules/vue/dist/vue.js'></script>
         <title>Weapon Generator</title>
     </head>
     <body>
         <div id='app'>
-            {{ message }}
+            <vue-button :listener="generateWeapon">
+            </vue-button>
+            <weapon-box :title="weapon.name">
+                <template v-slot:sub-title>{{ weapon.rarity }}</template>
+                <template v-slot:content>{{ weapon.stats }}</template>
+                <template v-slot:side-bar>{{ weapon.lore }}</template>
+            </weapon-box>
         </div>
-        <script src='../public/js/WeaponGenerator/WeaponGenerator.js'></script>
+        <script type="module" src='../public/js/WeaponGenerator/WeaponGenerator.js'></script>
     </body>
 </html>
