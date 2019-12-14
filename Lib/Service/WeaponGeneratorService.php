@@ -14,7 +14,11 @@ class WeaponGeneratorService
     private const LEGENDARY = 'Legendary';
     private const ARTIFACT = 'Artifact';
 
-
+    private const RARE_THRESHOLD = 9;
+    private const VERY_RARE_THRESHOLD = 15;
+    private const LEGENDARY_THRESHOLD = 22;
+    private const ARTIFACT_THRESHOLD = 29;
+    
     public function generateWeapon(): array
     {
         $words = ReadWordsService::readWords();
@@ -38,20 +42,20 @@ class WeaponGeneratorService
         $weapon_total = $prefix->calculateTotalPoints() +
             $noun->calculateTotalPoints() +
             $suffix->calculateTotalPoints();
-
-        if ($weapon_total < 7) { // Uncommon
+        
+        if ($weapon_total < self::RARE_THRESHOLD) { // Uncommon
             return self::UNCOMMON;
         }
-        if ($weapon_total >= 8 && $weapon_total <= 14) { // Rare
+        if ($weapon_total < self::VERY_RARE_THRESHOLD) { // Rare
             return self::RARE;
         }
-        if ($weapon_total >= 15 && $weapon_total <= 21) { // Very Rare
+        if ($weapon_total < self::LEGENDARY_THRESHOLD) { // Very Rare
             return self::VERY_RARE;
         }
-        if ($weapon_total >= 22 && $weapon_total <= 28) { // Legendary
+        if ($weapon_total < self::ARTIFACT_THRESHOLD) { // Legendary
             return self::LEGENDARY;
         }
-        if ($weapon_total >= 29) { // Artifact
+        if ($weapon_total >= self::ARTIFACT_THRESHOLD) { // Artifact
             return self::ARTIFACT;
         }
 
