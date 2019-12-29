@@ -1,5 +1,5 @@
 const vueButton = `
-<button v-on:click="listener">
+<button id="vueButton" v-on:click="listener">
     Generate Weapon
 </button>
 `;

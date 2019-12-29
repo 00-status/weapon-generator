@@ -7,7 +7,9 @@ import fetchWeapon from './api/fetchWeapon.js';
 let weapon = {
     name: 'Patton\'s Batton',
     rarity: 'very rare',
-    stats: '2d6 Bludgeoning Damage',
+    damageType: 'Bludgeoning',
+    damageDie: 6,
+    damageDieAmount: 2,
     lore: 'Lost during the great war.'
 };
 
@@ -15,6 +17,9 @@ const generateWeapon = () => {
     fetchWeapon((response) => {
         weapon.name = response.name;
         weapon.rarity = response.rarity;
+        weapon.damageType = response.damage_type;
+        weapon.damageDie = response.damage_die;
+        weapon.damageDieAmount = response.damage_die_amount;
     });
 };
 

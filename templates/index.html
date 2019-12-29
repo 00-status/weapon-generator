@@ -12,7 +12,9 @@
             </vue-button>
             <weapon-box :title="weapon.name">
                 <template v-slot:sub-title>{{ weapon.rarity }}</template>
-                <template v-slot:content>{{ weapon.stats }}</template>
+                <template v-slot:content>
+                    {{ weapon.damageDieAmount + 'd' + weapon.damageDie + ' ' + weapon.damageType }}
+                </template>
                 <template v-slot:side-bar>{{ weapon.lore }}</template>
             </weapon-box>
         </div>

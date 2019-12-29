@@ -8,6 +8,20 @@ class Word
     public const NOUN = 'noun';
     public const SUFFIX = 'suffix';
 
+    public const BLUDGEONING = 'bludgeoning';
+    public const SLASHING = 'slashing';
+    public const PIERCING = 'piercing';
+    public const FIRE = 'fire';
+    public const COLD = 'cold';
+    public const POISON = 'poison';
+    public const ACID = 'acid';
+    public const PSYCHIC = 'psyhic';
+    public const NECROTIC = 'necrotic';
+    public const RADIANT = 'radiant' ;
+    public const LIGHTNING = 'lightning';
+    public const THUNDER = 'thunder';
+    public const FORCE = 'force';
+
     /** @var string */
     private $name;
     /** @var string */
@@ -65,6 +79,8 @@ class Word
         $this->stats['lightning'] = $lightning;
         $this->stats['thunder'] = $thunder;
         $this->stats['force'] = $force;
+
+        arsort($this->stats);
     }
 
     public static function fromArray(array $word_array): self
@@ -89,6 +105,44 @@ class Word
     }
 
     /**
+     * @return int
+     */
+    public function calculateTotalPoints(): int
+    {
+        return array_sum($this->stats);
+    }
+
+    /**
+     * @return ?array [name, points]
+     */
+    public function getGreatestPhysicalStat(): ?array
+    {
+        $piercing = $this->getPiercing();
+        $bludgeoning = $this->getBludgeoning();
+        $slashing = $this->getSlashing();
+
+        $greatest = max([
+            $piercing,
+            $bludgeoning,
+            $slashing
+        ]);
+
+        switch ($greatest) {
+            case $piercing:
+                return [self::PIERCING, $piercing];
+                break;
+            case $bludgeoning:
+                return [self::BLUDGEONING, $bludgeoning];
+                break;
+            case $slashing:
+                return [self::SLASHING, $slashing];
+                break;
+        }
+
+        return null;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -102,13 +156,6 @@ class Word
     public function getType(): string
     {
         return $this->type;
-    }
-
-    public function calculateTotalPoints()
-    {
-        return array_reduce($this->stats, function ($sum, $stat) {
-            return $sum += isset($stat) ? $stat : 0;
-        }, 0);
     }
 
     public function getBludgeoning()
