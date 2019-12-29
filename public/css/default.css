@@ -18,3 +18,14 @@ h1, h2, h3, h4, h5 {
 #weaponBox {
     border: 3px solid black;
 }
+
+#vueButton {
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: rgb(250, 57, 57);
+    padding: 3px;
+    margin: 6px;
+}
+#vueButton:hover {
+    background-color: rgb(204, 38, 38);
+}
