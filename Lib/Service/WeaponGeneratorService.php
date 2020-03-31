@@ -22,9 +22,6 @@ class WeaponGeneratorService
     private const VERY_RARE_THRESHOLD = 15;
     private const LEGENDARY_THRESHOLD = 22;
     private const ARTIFACT_THRESHOLD = 29;
-
-    private const DIE = 'die';
-    private const NUMBER_OF_DIE = 'number_of_die';
     
     public function generateWeapon(): array
     {
