@@ -26,4 +26,3 @@ class ReadWordsService
         }, $file_array);
     }
 }
-

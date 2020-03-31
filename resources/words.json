@@ -156,7 +156,7 @@
     "word": "Scimitar",
     "type": "noun",
     "bludgeoning": 0,
-    "slashing": 0,
+    "slashing": 2,
     "piercing": 0,
     "fire": 0,
     "cold": 0,

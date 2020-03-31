@@ -4,6 +4,7 @@ namespace Lib\Service;
 
 use Lib\Service\Words\ReadWordsService;
 use Lib\Service\Words\SortWordsService;
+use Lib\Service\Effects\ReadEffectsService;
 use Lib\Entity\Word;
 
 class WeaponGeneratorService
@@ -24,9 +25,11 @@ class WeaponGeneratorService
     
     public function generateWeapon(): array
     {
+        // Get the effects
+        $effects = ReadEffectsService::readEffects();
         // Get a list of words
         $words = ReadWordsService::readWords();
-        // Sort words into prefix, noun, and suffic
+        // Sort words into prefix, noun, and suffix
         $sorted_words = SortWordsService::sortWords($words);
 
         // Pick some random words
@@ -38,9 +41,12 @@ class WeaponGeneratorService
         $name = $prefix->getName() . ' ' . $noun->getName() . ' ' . $suffix->getName();
         // Determine rarity
         $rarity = $this->selectRarity($prefix, $noun, $suffix);
+
         [$damage_type, $points] = $noun->getGreatestPhysicalStat();
         // Determine damage die and number of dice
         $damage = $this->determineDamage($points);
+
+        $effect = $effects[0] ?? null;
 
         return [
             'name' => $name,
@@ -48,6 +54,7 @@ class WeaponGeneratorService
             'damage_type' => $damage_type,
             'damage_die' => $damage[self::DIE],
             'damage_die_amount' => $damage[self::NUMBER_OF_DIE],
+            'effect' => $effect->getDescription(),
         ];
     }
 
@@ -63,44 +70,9 @@ class WeaponGeneratorService
         return $words[$chosen_word];
     }
 
-    private function getDamageType(Word $prefix, Word $noun, Word $suffix): string
+    private function getEffect(Word $prefix, Word $noun, Word $suffix, array $effects): string
     {
-        $initial = [
-            Word::BLUDGEONING => 0,
-            Word::SLASHING => 0,
-            Word::PIERCING => 0,
-            Word::FIRE => 0,
-            Word::COLD => 0,
-            Word::POISON => 0,
-            Word::ACID => 0,
-            Word::PSYCHIC => 0,
-            Word::NECROTIC => 0,
-            Word::RADIANT => 0,
-            Word::LIGHTNING => 0,
-            Word::THUNDER => 0,
-            Word::FORCE => 0,
-        ];
-
-        $stats_array = array_reduce([$prefix, $noun, $suffix], function (array $carry, Word $word) {
-            $carry[Word::BLUDGEONING] += $word->getBludgeoning();
-            $carry[Word::SLASHING] += $word->getSlashing();
-            $carry[Word::PIERCING] += $word->getPiercing();
-            $carry[Word::FIRE] += $word->getFire();
-            $carry[Word::COLD] += $word->getCold();
-            $carry[Word::POISON] += $word->getPoison();
-            $carry[Word::ACID] += $word->getAcid();
-            $carry[Word::PSYCHIC] += $word->getPsychic();
-            $carry[Word::NECROTIC] += $word->getNecrotic();
-            $carry[Word::RADIANT] += $word->getRadiant();
-            $carry[Word::LIGHTNING] += $word->getLightning();
-            $carry[Word::THUNDER] += $word->getThunder();
-            $carry[Word::FORCE] += $word->getForce();
-            return $carry;
-        }, $initial);
-
-        // Get the greatest damage type
-        $greatest_key = array_search(max($stats_array), $stats_array);
-        return $greatest_key;
+        return '';
     }
 
     private function selectRarity(Word $prefix, Word $noun, Word $suffix): string
