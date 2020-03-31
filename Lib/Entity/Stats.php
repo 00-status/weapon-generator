@@ -97,16 +97,106 @@ class Stats
     public function getGreatestPhysicalStat(): array
     {
         $greatest_value = $this->piercing;
-        $name = 'piercing';
+        $name = self::PIERCING;
 
         if ($this->piercing < $this->slashing) {
             $greatest_value = $this->slashing;
-            $name = 'slashing';
+            $name = self::SLASHING;
         } elseif ($greatest_value < $this->bludgeoning) {
             $greatest_value = $this->bludgeoning;
-            $name = 'bludgeoning';
+            $name = self::BLUDGEONING;
         }
 
         return [$name, $greatest_value];
+    }
+
+    public function getGreatestStat(): array
+    {
+        $greatest_value = $this->piercing;
+        $name = self::PIERCING;
+        foreach ($this as $property => $property_value) {
+            if ($greatest_value < $property_value) {
+                $greatest_value = $property_value;
+                $name = $property;
+            }
+        }
+
+        return [$name, $greatest_value];
+    }
+
+    /**
+     * @param string $name
+     * @param int $points
+     *
+     * @return bool
+     */
+    public function hasSufficientPointsInStat(string $name, int $points): bool
+    {
+        return $this->$name >= $points;
+    }
+
+    public function getBludgeoning(): int
+    {
+        return $this->bludgeoning;
+    }
+
+    public function getSlashing(): int
+    {
+        return $this->slashing;
+    }
+
+    public function getPiercing(): int
+    {
+        return $this->piercing;
+    }
+
+    public function getFire(): int
+    {
+        return $this->fire;
+    }
+
+    public function getCold(): int
+    {
+        return $this->cold;
+    }
+
+    public function getPoison(): int
+    {
+        return $this->poison;
+    }
+
+    public function getAcid(): int
+    {
+        return $this->acid;
+    }
+
+    public function getPsychic(): int
+    {
+        return $this->psychic;
+    }
+
+    public function getNecrotic(): int
+    {
+        return $this->necrotic;
+    }
+
+    public function getRadiant(): int
+    {
+        return $this->radiant;
+    }
+
+    public function getLightning(): int
+    {
+        return $this->lightning;
+    }
+
+    public function getThunder(): int
+    {
+        return $this->thunder;
+    }
+
+    public function getForce(): int
+    {
+        return $this->force;
     }
 }

@@ -39,14 +39,6 @@ class Word
     }
 
     /**
-     * @return int
-     */
-    public function calculateTotalPoints(): int
-    {
-        return $this->stats->getTotalPoints();
-    }
-
-    /**
      * @return array [name, points]
      */
     public function getGreatestPhysicalStat(): array
@@ -68,5 +60,10 @@ class Word
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getStats(): Stats
+    {
+        return $this->stats;
     }
 }

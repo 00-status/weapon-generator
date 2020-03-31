@@ -41,4 +41,15 @@ class Effect
     {
         return $this->description;
     }
+
+    /**
+     * @param string $stat_name
+     * @param int $points
+     *
+     * @return bool
+     */
+    public function hasSufficientPointsInStat(string $name, int $points): bool
+    {
+        return $this->stats->hasSufficientPointsInStat($name, $points);
+    }
 }

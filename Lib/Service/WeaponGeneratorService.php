@@ -2,9 +2,12 @@
 
 namespace Lib\Service;
 
+use Lib\Entity\Effect;
+use Lib\Entity\Stats;
 use Lib\Service\Words\ReadWordsService;
 use Lib\Service\Words\SortWordsService;
 use Lib\Service\Effects\ReadEffectsService;
+use Lib\Service\Stats\StatsMerger;
 use Lib\Entity\Word;
 
 class WeaponGeneratorService
@@ -37,31 +40,31 @@ class WeaponGeneratorService
         $noun = $this->pickRandomWord($sorted_words[Word::NOUN]);
         $suffix = $this->pickRandomWord($sorted_words[Word::SUFFIX]);
 
-        // Determine name
         $name = $prefix->getName() . ' ' . $noun->getName() . ' ' . $suffix->getName();
-        // Determine rarity
-        $rarity = $this->selectRarity($prefix, $noun, $suffix);
+
+        $stats_total = StatsMerger::mergeStats(
+            [$prefix->getStats(), $noun->getStats(), $suffix->getStats()]
+        );
 
         [$damage_type, $points] = $noun->getGreatestPhysicalStat();
-        // Determine damage die and number of dice
-        $damage = $this->determineDamage($points);
-
-        $effect = $effects[0] ?? null;
+        [$damage_die, $damage_die_amount] = $this->determineDamage($points);
+        $rarity = $this->determineRarity($stats_total);
+        $effect = $this->determineEffect($stats_total, $effects);
 
         return [
             'name' => $name,
             'rarity' => $rarity,
             'damage_type' => $damage_type,
-            'damage_die' => $damage[self::DIE],
-            'damage_die_amount' => $damage[self::NUMBER_OF_DIE],
-            'effect' => $effect->getDescription(),
+            'damage_die' => $damage_die,
+            'damage_die_amount' => $damage_die_amount,
+            'effect' => $effect,
         ];
     }
 
     /**
      * @param Word[] $words
      *
-     * @return string
+     * @return Word
      */
     private function pickRandomWord(array $words): Word
     {
@@ -70,30 +73,43 @@ class WeaponGeneratorService
         return $words[$chosen_word];
     }
 
-    private function getEffect(Word $prefix, Word $noun, Word $suffix, array $effects): string
+    /**
+     * @param Stats $stats
+     * @param array $effects
+     *
+     * @return string
+     */
+    private function determineEffect(Stats $stats, array $effects): string
     {
-        return '';
+        [$name, $points] = $stats->getGreatestStat();
+        $filtererd_effects = array_filter($effects, function (Effect $effect) use ($name, $points) {
+            return $effect->hasSufficientPointsInStat($name, $points);
+        });
+
+        if (empty($filtererd_effects)) {
+            return '';
+        }
+
+        return array_pop($filtererd_effects)->getDescription();
     }
 
-    private function selectRarity(Word $prefix, Word $noun, Word $suffix): string
+    private function determineRarity(Stats $stats): string
     {
-        $weapon_total = $prefix->calculateTotalPoints() +
-            $noun->calculateTotalPoints() +
-            $suffix->calculateTotalPoints();
+        $points = $stats->getTotalPoints();
         
-        if ($weapon_total < self::RARE_THRESHOLD) { // Uncommon
+        if ($points < self::RARE_THRESHOLD) { // Uncommon
             return self::UNCOMMON;
         }
-        if ($weapon_total < self::VERY_RARE_THRESHOLD) { // Rare
+        if ($points < self::VERY_RARE_THRESHOLD) { // Rare
             return self::RARE;
         }
-        if ($weapon_total < self::LEGENDARY_THRESHOLD) { // Very Rare
+        if ($points < self::LEGENDARY_THRESHOLD) { // Very Rare
             return self::VERY_RARE;
         }
-        if ($weapon_total < self::ARTIFACT_THRESHOLD) { // Legendary
+        if ($points < self::ARTIFACT_THRESHOLD) { // Legendary
             return self::LEGENDARY;
         }
-        if ($weapon_total >= self::ARTIFACT_THRESHOLD) { // Artifact
+        if ($points >= self::ARTIFACT_THRESHOLD) { // Artifact
             return self::ARTIFACT;
         }
         return '';
@@ -106,37 +122,47 @@ class WeaponGeneratorService
      */
     private function determineDamage(int $points): array
     {
+        $die_type = 6;
+        $number_of_dice = 1;
         switch ($points) {
             case 1:
-                return [self::DIE => 4, self::NUMBER_OF_DIE => 1];
+                $die_type = 4;
+                $number_of_dice = 1;
                 break;
             case 2:
-                return [self::DIE => 6, self::NUMBER_OF_DIE => 1];
+                $die_type = 6;
+                $number_of_dice = 1;
                 break;
             case 3:
-                return [self::DIE => 8, self::NUMBER_OF_DIE => 1];
+                $die_type = 8;
+                $number_of_dice = 1;
                 break;
             case 4:
-                return [self::DIE => 10, self::NUMBER_OF_DIE => 1];
+                $die_type = 10;
+                $number_of_dice = 1;
                 break;
             case 5:
-                return [self::DIE => 12, self::NUMBER_OF_DIE => 1];
+                $die_type = 12;
+                $number_of_dice = 1;
                 break;
             case 6:
-                return [self::DIE => 6, self::NUMBER_OF_DIE => 2];
+                $die_type = 6;
+                $number_of_dice = 2;
                 break;
             case 7:
-                return [self::DIE => 6, self::NUMBER_OF_DIE => 3];
+                $die_type = 6;
+                $number_of_dice = 3;
                 break;
             case 8:
-                return [self::DIE => 8, self::NUMBER_OF_DIE => 3];
+                $die_type = 8;
+                $number_of_dice = 3;
                 break;
             case 8:
-                return [self::DIE => 8, self::NUMBER_OF_DIE => 4];
-                break;
-            default:
-                return [self::DIE => 6, self::NUMBER_OF_DIE => 1];
+                $die_type = 8;
+                $number_of_dice = 4;
                 break;
         }
+
+        return [$die_type, $number_of_dice];
     }
 }
