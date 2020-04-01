@@ -22,17 +22,26 @@ class WeaponGeneratorService
     private const VERY_RARE_THRESHOLD = 15;
     private const LEGENDARY_THRESHOLD = 22;
     private const ARTIFACT_THRESHOLD = 29;
+
+    private $read_words_service;
+    private $read_effects_service;
+
+    public function __construct(
+        ReadWordsService $read_words_service,
+        ReadEffectsService $read_effects_service
+    ) {
+        $this->read_words_service = $read_words_service;
+        $this->read_effects_service = $read_effects_service;    
+    }
     
     public function generateWeapon(): array
     {
-        // Get the effects
-        $effects = ReadEffectsService::readEffects();
-        // Get a list of words
-        $words = ReadWordsService::readWords();
+        $words = $this->read_words_service->readWords();
+        $effects = $this->read_effects_service->readEffects();
+
         // Sort words into prefix, noun, and suffix
         $sorted_words = SortWordsService::sortWords($words);
 
-        // Pick some random words
         $prefix = $this->pickRandomWord($sorted_words[Word::PREFIX]);
         $noun = $this->pickRandomWord($sorted_words[Word::NOUN]);
         $suffix = $this->pickRandomWord($sorted_words[Word::SUFFIX]);
@@ -80,7 +89,7 @@ class WeaponGeneratorService
     {
         [$name, $points] = $stats->getGreatestStat();
         $filtererd_effects = array_filter($effects, function (Effect $effect) use ($name, $points) {
-            return $effect->hasSufficientPointsInStat($name, $points);
+            return $effect->hasSufficientPoints($name, $points);
         });
 
         if (empty($filtererd_effects)) {

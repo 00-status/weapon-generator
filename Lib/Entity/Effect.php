@@ -48,8 +48,8 @@ class Effect
      *
      * @return bool
      */
-    public function hasSufficientPointsInStat(string $name, int $points): bool
+    public function hasSufficientPoints(string $name, int $points): bool
     {
-        return $this->stats->hasSufficientPointsInStat($name, $points);
+        return $this->stats->hasSufficientPoints($name, $points);
     }
 }

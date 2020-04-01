@@ -11,7 +11,7 @@ class ReadEffectsService
     /**
      * @return Effect[]
      */
-    public static function readEffects(): array
+    public function readEffects(): array
     {
         if (!file_exists(self::FILE_PATH)) {
             return [];

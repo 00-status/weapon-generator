@@ -4,5 +4,16 @@
         "slim/slim": "4.0",
         "slim/psr7": "^0.6.0",
         "slim/php-view": "^2.2"
+    },
+    "config": {
+        "disable-tls": false
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lib\\":"Lib/"
+        }
     }
 }

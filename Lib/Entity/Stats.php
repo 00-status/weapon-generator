@@ -110,6 +110,11 @@ class Stats
         return [$name, $greatest_value];
     }
 
+    /**
+     * Returns the name and value of the greatest stat
+     *
+     * @return array
+     */
     public function getGreatestStat(): array
     {
         $greatest_value = $this->piercing;
@@ -125,14 +130,17 @@ class Stats
     }
 
     /**
+     * Returns true if the passed in stat is equal to or greater than
+     * the associated stat in this class.
+     *
      * @param string $name
      * @param int $points
      *
      * @return bool
      */
-    public function hasSufficientPointsInStat(string $name, int $points): bool
+    public function hasSufficientPoints(string $name, int $points): bool
     {
-        return $this->$name >= $points;
+        return $this->$name !== 0 && $this->$name <= $points;
     }
 
     public function getBludgeoning(): int
