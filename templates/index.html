@@ -8,14 +8,13 @@
     </head>
     <body>
         <div id='app'>
-            <vue-button :listener="generateWeapon">
-            </vue-button>
+            <vue-button :listener="generateWeapon" ></vue-button>
             <weapon-box :title="weapon.name">
                 <template v-slot:sub-title>{{ weapon.rarity }}</template>
                 <template v-slot:content>
                     {{ weapon.damageDieAmount + 'd' + weapon.damageDie + ' ' + weapon.damageType }}
                 </template>
-                <template v-slot:side-bar>{{ weapon.lore }}</template>
+                <template v-slot:sub-content>{{ weapon.effect }}</template>
             </weapon-box>
         </div>
         <script type="module" src='../public/js/WeaponGenerator/WeaponGenerator.js'></script>

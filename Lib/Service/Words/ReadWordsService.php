@@ -11,7 +11,7 @@ class ReadWordsService
     /**
      * @return Word[]
      */
-    public static function readWords(): array
+    public function readWords(): array
     {
         if (!file_exists(self::FILE_NAME)) {
             return [];
@@ -26,4 +26,3 @@ class ReadWordsService
         }, $file_array);
     }
 }
-
