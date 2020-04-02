@@ -10,8 +10,7 @@ let weapon = {
     damageType: 'Bludgeoning',
     damageDie: 6,
     damageDieAmount: 2,
-    effect: 'Deals an extra 1d6 fire damage',
-    lore: 'Lost during the great war.'
+    effect: 'Deals an extra 1d6 fire damage'
 };
 
 const generateWeapon = () => {
