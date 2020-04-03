@@ -1,12 +1,14 @@
 <?php
 
-use Lib\Entity\Effect;
-use Lib\Entity\Stats;
-use Lib\Entity\Word;
-use Lib\Service\Effects\ReadEffectsService;
-use Lib\Service\WeaponGeneratorService;
-use Lib\Service\Words\ReadWordsService;
 use PHPUnit\Framework\TestCase;
+
+use Lib\Infrastructure\ReadWordsService;
+use Lib\Infrastructure\ReadEffectsService;
+use Lib\Domain\Entity\Effect;
+use Lib\Domain\Entity\Stats;
+use Lib\Domain\Entity\Word;
+use Lib\Service\WeaponGeneratorService;
+
 
 class WeaponGeneratorServiceTest extends TestCase
 {
@@ -42,7 +44,7 @@ class WeaponGeneratorServiceTest extends TestCase
             'damage_type' => 'bludgeoning',
             'damage_die' => 4,
             'damage_die_amount' => 1,
-            'effect' => 'selected',
+            'effects' => ['primary effect', 'secondary effect'],
         ];
 
         // Test result
@@ -51,7 +53,7 @@ class WeaponGeneratorServiceTest extends TestCase
 
     private function createWords(): array
     {
-        $stats = new Stats(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+        $stats = new Stats(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2);
         return [
             new Word('prefix', 'prefix', $stats),
             new Word('noun', 'noun', $stats),
@@ -62,8 +64,10 @@ class WeaponGeneratorServiceTest extends TestCase
     private function createEffects(): array
     {
         return [
-            new Effect('', 'filtered out', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7)),
-            new Effect('', 'selected', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6)),
+            new Effect('', 'primary effect - not selected', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7)),
+            new Effect('', 'primary effect', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6)),
+            new Effect('', 'secondary effect - not selected', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0)),
+            new Effect('', 'secondary effect', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0)),
         ];
     }
 }

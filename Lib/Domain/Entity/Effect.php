@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\Entity;
+namespace Lib\Domain\Entity;
 
-use Lib\Entity\Stats;
+use Lib\Domain\Entity\Stats;
 
 class Effect
 {

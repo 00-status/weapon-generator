@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\Entity;
+namespace Lib\Domain\Entity;
 
-use Lib\Entity\Stats;
+use Lib\Domain\Entity\Stats;
 
 class Word
 {
@@ -39,9 +39,9 @@ class Word
     }
 
     /**
-     * @return array [name, points]
+     * @return StatPoints
      */
-    public function getGreatestPhysicalStat(): array
+    public function getGreatestPhysicalStat(): StatPoints
     {
         return $this->stats->getGreatestPhysicalStat();
     }

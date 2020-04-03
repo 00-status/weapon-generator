@@ -1,9 +1,9 @@
 <?php
 
-namespace Lib\Service\Stats;
+namespace Lib\Domain\Service\Stats;
 
 use InvalidArgumentException;
-use Lib\Entity\Stats;
+use Lib\Domain\Entity\Stats;
 
 class StatsMerger
 {

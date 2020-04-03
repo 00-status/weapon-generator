@@ -1,12 +1,13 @@
 <?php
 
-use Lib\Service\Effects\ReadEffectsService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Slim\Views\PhpRenderer;
+
+use Lib\Infrastructure\ReadEffectsService;
+use Lib\Infrastructure\ReadWordsService;
 use Lib\Service\WeaponGeneratorService;
-use Lib\Service\Words\ReadWordsService;
 
 require __DIR__ . './vendor/autoload.php';
 

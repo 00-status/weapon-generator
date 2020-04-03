@@ -1,7 +1,8 @@
 <?php
 
-use Lib\Entity\Stats;
-use Lib\Service\Stats\StatsMerger;
+use Lib\Domain\Entity\Stats;
+use Lib\Domain\Service\Stats\StatsMerger;
+
 use PHPUnit\Framework\TestCase;
 
 class StatsMergerTest extends TestCase

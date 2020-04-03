@@ -1,12 +1,12 @@
 <?php
 
-namespace Lib\Service\Words;
+namespace Lib\Infrastructure;
 
-use Lib\Entity\Word;
+use Lib\Domain\Entity\Word;
 
 class ReadWordsService
 {
-    const FILE_NAME = __DIR__ . '/../../../resources/words.json';
+    const FILE_NAME = __DIR__ . '/../../resources/words.json';
 
     /**
      * @return Word[]
