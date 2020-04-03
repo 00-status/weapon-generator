@@ -1,12 +1,12 @@
 <?php
 
-namespace Lib\Service\Effects;
+namespace Lib\Infrastructure;
 
-use Lib\Entity\Effect;
+use Lib\Domain\Entity\Effect;
 
 class ReadEffectsService
 {
-    const FILE_PATH = __DIR__ . '/../../../resources/effects.json';
+    const FILE_PATH = __DIR__ . '/../../resources/effects.json';
 
     /**
      * @return Effect[]

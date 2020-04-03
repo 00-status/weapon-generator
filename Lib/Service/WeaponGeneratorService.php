@@ -2,13 +2,15 @@
 
 namespace Lib\Service;
 
-use Lib\Entity\Effect;
-use Lib\Entity\Stats;
-use Lib\Service\Words\ReadWordsService;
-use Lib\Service\Words\SortWordsService;
-use Lib\Service\Effects\ReadEffectsService;
-use Lib\Service\Stats\StatsMerger;
-use Lib\Entity\Word;
+use Lib\Infrastructure\ReadWordsService;
+use Lib\Infrastructure\ReadEffectsService;
+
+use Lib\Domain\Entity\Word;
+use Lib\Domain\Entity\Effect;
+use Lib\Domain\Entity\Stats;
+
+use Lib\Domain\Service\SortWordsService;
+use Lib\Domain\Service\Stats\StatsMerger;
 
 class WeaponGeneratorService
 {
@@ -55,7 +57,10 @@ class WeaponGeneratorService
         [$damage_type, $points] = $noun->getGreatestPhysicalStat();
         [$damage_die, $damage_die_amount] = $this->determineDamage($points);
         $rarity = $this->determineRarity($stats_total);
-        $effect = $this->determineEffect($stats_total, $effects);
+        $effect = $this->determineEffect(
+            $stats_total,
+            $effects
+        );
 
         return [
             'name' => $name,
@@ -88,9 +93,12 @@ class WeaponGeneratorService
     private function determineEffect(Stats $stats, array $effects): string
     {
         [$name, $points] = $stats->getGreatestStat();
-        $filtererd_effects = array_filter($effects, function (Effect $effect) use ($name, $points) {
-            return $effect->hasSufficientPoints($name, $points);
-        });
+        $filtererd_effects = array_filter(
+            $effects,
+            function (Effect $effect) use ($name, $points) {
+                return $effect->hasSufficientPoints($name, $points);
+            }
+        );
 
         if (empty($filtererd_effects)) {
             return '';

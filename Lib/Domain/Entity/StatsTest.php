@@ -1,6 +1,6 @@
 <?php
 
-use Lib\Entity\Stats;
+use Lib\Domain\Entity\Stats;
 use PHPUnit\Framework\TestCase;
 
 class StatsTest extends TestCase

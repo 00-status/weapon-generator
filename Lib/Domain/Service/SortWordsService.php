@@ -1,8 +1,8 @@
 <?php
 
-namespace Lib\Service\Words;
+namespace Lib\Domain\Service;
 
-use Lib\Entity\Word;
+use Lib\Domain\Entity\Word;
 
 class SortWordsService
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Entity;
+namespace Lib\Domain\Entity;
 
 class Stats
 {
