@@ -4,11 +4,10 @@ namespace Lib\Service;
 
 use Lib\Infrastructure\ReadWordsService;
 use Lib\Infrastructure\ReadEffectsService;
-
 use Lib\Domain\Entity\Word;
 use Lib\Domain\Entity\Effect;
+use Lib\Domain\Entity\StatPoints;
 use Lib\Domain\Entity\Stats;
-
 use Lib\Domain\Service\SortWordsService;
 use Lib\Domain\Service\Stats\StatsMerger;
 
@@ -54,10 +53,12 @@ class WeaponGeneratorService
             [$prefix->getStats(), $noun->getStats(), $suffix->getStats()]
         );
 
-        [$damage_type, $points] = $noun->getGreatestPhysicalStat();
-        [$damage_die, $damage_die_amount] = $this->determineDamage($points);
+        $greatest_physical_stat = $noun->getGreatestPhysicalStat();
+        [$damage_die, $damage_die_amount] = $this->determineDamage(
+            $greatest_physical_stat->getPoints()
+        );
         $rarity = $this->determineRarity($stats_total);
-        $effect = $this->determineEffect(
+        $effects = $this->determineEffect(
             $stats_total,
             $effects
         );
@@ -65,10 +66,10 @@ class WeaponGeneratorService
         return [
             'name' => $name,
             'rarity' => $rarity,
-            'damage_type' => $damage_type,
+            'damage_type' => $greatest_physical_stat->getName(),
             'damage_die' => $damage_die,
             'damage_die_amount' => $damage_die_amount,
-            'effect' => $effect,
+            'effects' => $effects,
         ];
     }
 
@@ -86,25 +87,35 @@ class WeaponGeneratorService
 
     /**
      * @param Stats $stats
-     * @param array $effects
+     * @param Effect[] $effects
      *
-     * @return string
+     * @return string[]
      */
-    private function determineEffect(Stats $stats, array $effects): string
+    private function determineEffect(Stats $stats, array $effects): array
     {
-        [$name, $points] = $stats->getGreatestStat();
-        $filtererd_effects = array_filter(
-            $effects,
-            function (Effect $effect) use ($name, $points) {
-                return $effect->hasSufficientPoints($name, $points);
-            }
-        );
+        $greatest_stats = $stats->getGreatestStats();
 
-        if (empty($filtererd_effects)) {
-            return '';
+        $chosen_effects = [];
+        foreach ($greatest_stats as $greatest_stat) {
+            $name = $greatest_stat->getName();
+            $points = $greatest_stat->getPoints();
+
+            $filtererd_effects = array_filter(
+                $effects,
+                function (Effect $effect) use ($name, $points) {
+                    return $effect->hasSufficientPoints($name, $points);
+                }
+            );
+            $filtererd_effects = array_values($filtererd_effects);
+
+            $effects_count = count($filtererd_effects);
+            if ($effects_count >= 1) {
+                $chosen_effect = rand(0, $effects_count - 1);
+                $chosen_effects[] = $filtererd_effects[$chosen_effect]->getDescription();
+            }
         }
 
-        return array_pop($filtererd_effects)->getDescription();
+        return $chosen_effects;
     }
 
     private function determineRarity(Stats $stats): string

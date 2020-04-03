@@ -39,9 +39,9 @@ class Word
     }
 
     /**
-     * @return array [name, points]
+     * @return StatPoints
      */
-    public function getGreatestPhysicalStat(): array
+    public function getGreatestPhysicalStat(): StatPoints
     {
         return $this->stats->getGreatestPhysicalStat();
     }

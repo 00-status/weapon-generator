@@ -92,9 +92,10 @@ class Stats
     }
 
     /**
-     * @return array
+     *
+     * @return StatPoints
      */
-    public function getGreatestPhysicalStat(): array
+    public function getGreatestPhysicalStat(): StatPoints
     {
         $greatest_value = $this->piercing;
         $name = self::PIERCING;
@@ -107,26 +108,37 @@ class Stats
             $name = self::BLUDGEONING;
         }
 
-        return [$name, $greatest_value];
+        return new StatPoints($name, $greatest_value);
     }
 
     /**
-     * Returns the name and value of the greatest stat
+     * Returns the two greatest stats
      *
-     * @return array
+     * @return StatPoints[]
      */
-    public function getGreatestStat(): array
+    public function getGreatestStats(): array
     {
-        $greatest_value = $this->piercing;
-        $name = self::PIERCING;
-        foreach ($this as $property => $property_value) {
-            if ($greatest_value < $property_value) {
-                $greatest_value = $property_value;
-                $name = $property;
+        $greatest_stats = [];
+
+        $current_greatest_value = 0;
+        foreach ($this as $name => $property_value) {
+            if ( $property_value > 0 && $property_value >= $current_greatest_value) {
+                $current_greatest_value = $property_value;
+
+                $stat_points = new StatPoints($name, $current_greatest_value);
+
+                if (count($greatest_stats) > 1) {
+                    // pop the lowest stat
+                    array_pop($greatest_stats);
+                    // Prepend the new greatest stat
+                    array_unshift($greatest_stats, $stat_points);
+                } else {
+                    array_unshift($greatest_stats, $stat_points);
+                }
             }
         }
 
-        return [$name, $greatest_value];
+        return $greatest_stats;
     }
 
     /**

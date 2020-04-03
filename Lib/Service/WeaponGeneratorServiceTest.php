@@ -44,8 +44,7 @@ class WeaponGeneratorServiceTest extends TestCase
             'damage_type' => 'bludgeoning',
             'damage_die' => 4,
             'damage_die_amount' => 1,
-            'primary_effect' => 'primary effect',
-            'secondary_effect' => 'secondary effect',
+            'effects' => ['primary effect', 'secondary effect'],
         ];
 
         // Test result
