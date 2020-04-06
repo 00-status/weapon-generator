@@ -53,7 +53,7 @@ class WeaponGeneratorServiceTest extends TestCase
 
     private function createWords(): array
     {
-        $stats = new Stats(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2);
+        $stats = new Stats(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3);
         return [
             new Word('prefix', 'prefix', $stats),
             new Word('noun', 'noun', $stats),
@@ -66,8 +66,8 @@ class WeaponGeneratorServiceTest extends TestCase
         return [
             new Effect('', 'primary effect - not selected', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7)),
             new Effect('', 'primary effect', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6)),
-            new Effect('', 'secondary effect - not selected', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0)),
-            new Effect('', 'secondary effect', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0)),
+            new Effect('', 'secondary effect - not selected', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0)),
+            new Effect('', 'secondary effect', new Stats(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0)),
         ];
     }
 }

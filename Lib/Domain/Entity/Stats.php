@@ -120,21 +120,21 @@ class Stats
     {
         $greatest_stats = [];
 
-        $current_greatest_value = 0;
+        $stats_array = [];
         foreach ($this as $name => $property_value) {
-            if ( $property_value > 0 && $property_value >= $current_greatest_value) {
-                $current_greatest_value = $property_value;
+            $stats_array[$name] = $property_value;
+        }
 
-                $stat_points = new StatPoints($name, $current_greatest_value);
+        // Sort array descending
+        arsort($stats_array);
 
-                if (count($greatest_stats) > 1) {
-                    // pop the lowest stat
-                    array_pop($greatest_stats);
-                    // Prepend the new greatest stat
-                    array_unshift($greatest_stats, $stat_points);
-                } else {
-                    array_unshift($greatest_stats, $stat_points);
-                }
+        // Pop off two greatest stats.
+
+        for ($i = 0; $i < 2; $i++) {
+            $greatest_key = array_key_first($stats_array);
+            $greatest_value = array_shift($stats_array);
+            if ($greatest_value > 0) {
+                $greatest_stats[] = new StatPoints($greatest_key, $greatest_value);
             }
         }
 

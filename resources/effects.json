@@ -116,7 +116,7 @@
     "lightning": 1,
     "thunder": 0,
     "force": 0,
-    "effect": "This weapon deals an extra Lightning Damage."
+    "effect": "This weapon deals an extra 1d6 Lightning Damage."
   },
   {
     "name": "",
@@ -660,7 +660,7 @@
     "lightning": 0,
     "thunder": 0,
     "force": 5,
-    "effect": "The wielder of this weapon can cast Misty Step once per Short Rest."
+    "effect": "The wielder of this weapon can cast Misty Step once per Short or Long Rest."
   },
   {
     "name": "",

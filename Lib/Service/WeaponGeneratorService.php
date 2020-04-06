@@ -6,7 +6,6 @@ use Lib\Infrastructure\ReadWordsService;
 use Lib\Infrastructure\ReadEffectsService;
 use Lib\Domain\Entity\Word;
 use Lib\Domain\Entity\Effect;
-use Lib\Domain\Entity\StatPoints;
 use Lib\Domain\Entity\Stats;
 use Lib\Domain\Service\SortWordsService;
 use Lib\Domain\Service\Stats\StatsMerger;
@@ -50,7 +49,7 @@ class WeaponGeneratorService
         $name = $prefix->getName() . ' ' . $noun->getName() . ' ' . $suffix->getName();
 
         $stats_total = StatsMerger::mergeStats(
-            [$prefix->getStats(), $noun->getStats(), $suffix->getStats()]
+            [$prefix->getStats(), $suffix->getStats()]
         );
 
         $greatest_physical_stat = $noun->getGreatestPhysicalStat();
