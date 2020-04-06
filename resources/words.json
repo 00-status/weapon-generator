@@ -18,7 +18,7 @@
     "force": 0
   },
   {
-    "word": "Shortword",
+    "word": "Shortsword",
     "type": "noun",
     "range": 0,
     "bludgeoning": 0,
@@ -450,7 +450,7 @@
     "force": 5
   },
   {
-    "word": "icebound",
+    "word": "Icebound",
     "type": "prefix",
     "range": 0,
     "bludgeoning": 0,
