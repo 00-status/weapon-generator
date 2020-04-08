@@ -12,7 +12,7 @@
             <weapon-box :title="weapon.name" :effects="weapon.effects">
                 <template v-slot:sub-title>{{ weapon.rarity }}</template>
                 <template v-slot:content>
-                    {{ weapon.damageDieAmount + 'd' + weapon.damageDie + ' ' + weapon.damageType }}
+                    Deals {{ weapon.damageDieAmount + 'd' + weapon.damageDie + ' ' + weapon.damageType }} Damage
                 </template>
             </weapon-box>
         </div>
