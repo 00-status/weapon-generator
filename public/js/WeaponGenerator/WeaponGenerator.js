@@ -5,12 +5,12 @@ import fetchWeapon from './api/fetchWeapon.js';
 
 // Initial setup of the store.
 let weapon = {
-    name: 'Patton\'s Batton',
-    rarity: 'very rare',
-    damageType: 'Bludgeoning',
+    name: '',
+    rarity: '',
+    damageType: '',
     damageDie: 6,
     damageDieAmount: 2,
-    effects: ['Hello']
+    effects: []
 };
 
 const generateWeapon = () => {

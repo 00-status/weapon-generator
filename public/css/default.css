@@ -9,23 +9,59 @@ h1, h2, h3, h4, h5 {
     margin: 6px 9px 6px 9px;
 }
 
-#app {
-    margin: auto;
-    width: 50%;
-    text-align: center;
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.weaponBox {
-    border: 3px solid black;
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: auto;
 }
 
 #vueButton {
     border: 3px solid black;
     border-radius: 5px;
     background-color: rgb(250, 57, 57);
-    padding: 3px;
-    margin: 6px;
+    font-weight: 600;
+    margin: 12px;
+
+    width: 150px;
+    height: 45px;
 }
 #vueButton:hover {
     background-color: rgb(204, 38, 38);
+}
+
+.weaponBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 500px;
+    max-width: 700px;
+
+
+    border: 2px solid black;
+    background-color: rgb(253, 253, 253);
+    box-shadow: 2px 2px 5px rgb(19, 19, 19);
+    border-radius: 1%;
+}
+
+.divider {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    width: 40%;
+    height: 1px;
+    background-color: black;
+}
+
+.effectList {
+    align-self: flex-start;
+    list-style-type: square;
+
+    margin: 12px 12px 12px 30px;
 }
